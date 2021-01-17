@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="days"
+            type="String" />
+
+        <variable
             name="model"
             type="com.android.weatherapp.renderforest.domain.model.DailyItem" />
     </data>
@@ -35,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_LXX"
-                android:text="@string/today"
+                android:text="@{days}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,10 +58,10 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/CurrentWeatherDataTextViewStyle"
+                android:id="@+id/weatherDegree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_LXX"
-                android:text="@{String.valueOf(model.temp.day)}"
                 android:textSize="@dimen/current_temp_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -9,6 +9,10 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
+/** Application class.
+ *  calling first in the app and has application context
+ **/
+
 
 class AppApplication : Application() {
 

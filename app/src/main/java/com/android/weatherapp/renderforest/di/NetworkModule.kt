@@ -19,6 +19,10 @@ import java.lang.reflect.Type
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+/**
+ * Koin Module
+ * */
+
 private const val TIME_OUT = 30L
 
 val NetworkModule = module {
@@ -29,8 +33,6 @@ val NetworkModule = module {
 }
 
 fun createOkHttpClient(): OkHttpClient {
-//    val httpLoggingInterceptor = HttpLoggingInterceptor()
-//    httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC
     return OkHttpClient.Builder()
         .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
         .readTimeout(TIME_OUT, TimeUnit.SECONDS)

@@ -9,6 +9,7 @@ import com.android.weatherapp.renderforest.domain.model.Params
 import com.android.weatherapp.renderforest.domain.repository.DataBaseRepository
 import com.android.weatherapp.renderforest.domain.usecase.GetWeatherUseCase
 import com.android.weatherapp.renderforest.domain.usecase.UseCaseResponse
+import com.android.weatherapp.renderforest.utils.NetworkUtil
 import com.android.weatherapp.renderforest.utils.convertModelToEntity
 import kotlinx.coroutines.cancel
 
@@ -22,28 +23,32 @@ class HomeViewModel(
     val messageData = MutableLiveData<String>()
 
     fun getWeather(params: Params) {
-        showProgressbar.value = true
-        getWeatherUseCase.invoke(
-            viewModelScope,
-            params,
-            object : UseCaseResponse<MainWeatherResponse> {
 
-                override fun onSuccess(result: MainWeatherResponse) {
-                    val weatherEntity = convertModelToEntity(result.daily)
+        if (NetworkUtil.isNetworkAvailable()) {
+
+            showProgressbar.value = true
+            getWeatherUseCase.invoke(
+                viewModelScope,
+                params,
+                object : UseCaseResponse<MainWeatherResponse> {
+
+                    override fun onSuccess(result: MainWeatherResponse) {
+                        val weatherEntity = convertModelToEntity(result.daily)
 //                    dataBaseRepository.add(weatherEntity)
-                    dataBaseRepository.getSavedNewsData
-                    weatherData.postValue(result)
-                    showProgressbar.value = false
+//                    dataBaseRepository.getSavedNewsData
+                        weatherData.postValue(result)
+                        showProgressbar.value = false
+                    }
+
+                    override fun onError(apiError: ApiError?) {
+                        messageData.value = apiError?.getErrorMessage()
+                        showProgressbar.value = false
+                    }
+
+
                 }
-
-                override fun onError(apiError: ApiError?) {
-                    messageData.value = apiError?.getErrorMessage()
-                    showProgressbar.value = false
-                }
-
-
-            }
-        )
+            )
+        }
     }
 
     override fun onCleared() {

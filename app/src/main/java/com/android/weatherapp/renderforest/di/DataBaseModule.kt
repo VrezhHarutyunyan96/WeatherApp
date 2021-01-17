@@ -6,6 +6,10 @@ import com.android.weatherapp.renderforest.data.local.roomdb.WeatherDataBase
 import com.android.weatherapp.renderforest.domain.repository.DataBaseRepository
 import org.koin.dsl.module
 
+/**
+ * Koin Module
+ * */
+
 fun DBModule(appContext: Context) = module {
     single {   Room.databaseBuilder(appContext, WeatherDataBase::class.java, "news_database")
         .build() }

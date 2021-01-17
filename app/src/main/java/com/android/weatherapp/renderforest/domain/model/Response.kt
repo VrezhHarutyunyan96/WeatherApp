@@ -2,6 +2,10 @@ package com.android.weatherapp.renderforest.domain.model
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Main response model
+ */
+
 data class MainWeatherResponse(
 
 //    @SerializedName("lat") val lat: Double,

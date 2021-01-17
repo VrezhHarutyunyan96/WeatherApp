@@ -14,17 +14,17 @@ abstract class BaseUseCase<Type, in Params>() where Type : Any {
     fun invoke(scope: CoroutineScope, params: Params, onResult: UseCaseResponse<Type>?) {
 
         scope.launch {
-//            try {
+            try {
                 val result = run(params)
                 onResult?.onSuccess(result)
-//            }
-//            catch (e: CancellationException) {
-//                e.printStackTrace()
-//                onResult?.onError(traceErrorException(e))
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                onResult?.onError(traceErrorException(e))
-//            }
+            }
+            catch (e: CancellationException) {
+                e.printStackTrace()
+                onResult?.onError(traceErrorException(e))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult?.onError(traceErrorException(e))
+            }
         }
     }
 

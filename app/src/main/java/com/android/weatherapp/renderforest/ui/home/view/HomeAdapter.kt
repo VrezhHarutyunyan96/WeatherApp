@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.weatherapp.renderforest.clean.R
 import com.android.weatherapp.renderforest.clean.databinding.ItemForcastBinding
 import com.android.weatherapp.renderforest.domain.model.DailyItem
+import com.android.weatherapp.renderforest.utils.getDay
+import com.android.weatherapp.renderforest.utils.getTempString
 import kotlin.properties.Delegates
 
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
@@ -30,6 +32,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
         fun onBind(item: DailyItem) {
             itemForcastBinding.model = item
+            itemForcastBinding.days = getDay(item.dt)
+            itemForcastBinding.weatherDegree.text = item.temp.day.toString().getTempString()
         }
     }
 

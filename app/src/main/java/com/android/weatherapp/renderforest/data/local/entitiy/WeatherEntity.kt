@@ -8,19 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "weather")
 data class WeatherEntity(
 
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "daily_entity")
     var daily: List<DailyEntity?>
 ) {
-    constructor() : this(
-        mutableListOf(
-            DailyEntity(
-                1000,
-                5,
-                mutableListOf(DayWeather(10, "", "", ""))
-            )
-        )
-    )
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
 }
 
 

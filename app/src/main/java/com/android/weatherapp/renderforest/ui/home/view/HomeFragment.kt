@@ -20,6 +20,7 @@ import com.android.weatherapp.renderforest.clean.R
 import com.android.weatherapp.renderforest.clean.databinding.FragmentHomeBinding
 import com.android.weatherapp.renderforest.domain.model.Params
 import com.android.weatherapp.renderforest.ui.home.viewmodel.HomeViewModel
+import com.android.weatherapp.renderforest.utils.Constants
 import com.android.weatherapp.renderforest.utils.PermissionUtils
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -36,18 +37,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var locationCallback: LocationCallback
     private val adapter: HomeAdapter = HomeAdapter()
 
-
     private val viewModel: HomeViewModel by viewModel()
 
-//    if (isNetworkAvailable()) {
-//        viewModel.getWeather(Params(API_KEY,"33.441792","94.037689","current,minutely,hourly,alerts","metric"))
-//    } else {
-//        Toast.makeText(
-//            this,
-//            getString(R.string.no_internet_connection),
-//            Toast.LENGTH_SHORT
-//        ).show()
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,17 +52,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         PermissionUtils.showGPSNotEnabledDialog(requireContext())
                     }
                 }
-
             }
             else -> {
-
                 requestPermissions(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ), LOCATION_PERMISSION_REQUEST_CODE
                 )
-
             }
         }
     }
@@ -100,7 +88,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                viewModel.getWeather(Params(API_KEY, location?.latitude.toString(), location?.longitude.toString(), "current,minutely,hourly,alerts", "metric"))
+                viewModel.getWeather(
+                    Params(
+                        API_KEY,
+                        location?.latitude.toString(),
+                        location?.longitude.toString(),
+                        Constants.DATE_REQUEST_PARAMS,
+                        Constants.UNITS_REQUEST_PARAMS
+                    )
+                )
 
                 Log.d(tagName, " last ${location?.latitude} ${location?.longitude}")
             }
@@ -146,8 +142,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     fun initObservers() {
-
-
 
         with(viewModel) {
 
