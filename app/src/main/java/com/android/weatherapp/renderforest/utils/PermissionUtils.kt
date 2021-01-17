@@ -15,22 +15,6 @@ import com.android.weatherapp.renderforest.clean.R
 
 object PermissionUtils {
 
-    val locationPerms = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-
-    /**
-     * Function to request permission from the user
-     */
-    fun requestAccessFineLocationPermission(activity: FragmentActivity, requestId: Int) {
-        requestPermissions(
-            activity,
-            locationPerms,
-            requestId
-        )
-    }
-
     /**
      * Function to check if the location permissions are granted or not
      */
@@ -50,10 +34,6 @@ object PermissionUtils {
             context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
-    fun checkLocationForPermissions(context: Context) = locationPerms.all {
-        ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
 
     /**

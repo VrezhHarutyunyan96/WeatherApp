@@ -6,14 +6,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.weatherapp.renderforest.clean.R
 import com.android.weatherapp.renderforest.clean.databinding.ItemForcastBinding
+import com.android.weatherapp.renderforest.data.local.entitiy.WeatherEntity
 import com.android.weatherapp.renderforest.domain.model.DailyItem
 import com.android.weatherapp.renderforest.utils.getDay
 import com.android.weatherapp.renderforest.utils.getTempString
 import kotlin.properties.Delegates
 
+/**
+ * Adapter for show weather data
+ */
+
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
-    var mWeatherList: List<DailyItem> by Delegates.observable(emptyList()) { _, _, _ ->
+    var mWeatherList: List<WeatherEntity.DailyEntity> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
@@ -30,7 +35,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     inner class HomeViewHolder(private val itemForcastBinding: ItemForcastBinding) :
         RecyclerView.ViewHolder(itemForcastBinding.root) {
 
-        fun onBind(item: DailyItem) {
+        fun onBind(item: WeatherEntity.DailyEntity) {
             itemForcastBinding.model = item
             itemForcastBinding.days = getDay(item.dt)
             itemForcastBinding.weatherDegree.text = item.temp.day.toString().getTempString()

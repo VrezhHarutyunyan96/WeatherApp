@@ -43,4 +43,6 @@ ext {
     kotlinVersion = "1.4.20"
     gmsLocationVersion = "17.1.0"
     converterMoshiVersion = "2.9.0"
+    moshi_version = '1.9.3'
+    converter_moshi_version = '2.9.0'
 }

@@ -32,7 +32,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
-    val tagName = "HomeFragment"
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private val adapter: HomeAdapter = HomeAdapter()
@@ -75,13 +74,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun setUpLocationListener() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
-
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 for (location in locationResult.locations) {
-                    Log.d(tagName, "loop ${location?.latitude} ${location?.longitude}")
                 }
             }
         }
@@ -97,8 +93,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         Constants.UNITS_REQUEST_PARAMS
                     )
                 )
-
-                Log.d(tagName, " last ${location?.latitude} ${location?.longitude}")
             }
         createLocationRequest()
     }
@@ -146,7 +140,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         with(viewModel) {
 
             weatherData.observe(this@HomeFragment, Observer {
-                adapter.mWeatherList = it.daily
+            })
+
+            weatherDbData.observe(this@HomeFragment, Observer {
+                it?.let {
+                    adapter.mWeatherList = it.daily
+                }
+                if (it == null) {
+                    toast(Constants.EMPTY_DATA)
+                }
                 progressBar.visibility = GONE
             })
 

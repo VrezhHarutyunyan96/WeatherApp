@@ -11,7 +11,7 @@
 
         <variable
             name="model"
-            type="com.android.weatherapp.renderforest.domain.model.DailyItem" />
+            type="com.android.weatherapp.renderforest.data.local.entitiy.WeatherEntity.DailyEntity" />
     </data>
 
 

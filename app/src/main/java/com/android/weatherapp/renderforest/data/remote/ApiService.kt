@@ -4,6 +4,10 @@ import com.android.weatherapp.renderforest.domain.model.MainWeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * Handler Api request
+ */
+
 interface ApiService {
 
     @GET("data/2.5/onecall")

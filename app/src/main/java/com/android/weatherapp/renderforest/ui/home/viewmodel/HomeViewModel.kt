@@ -3,6 +3,7 @@ package com.android.weatherapp.renderforest.ui.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.weatherapp.renderforest.data.local.entitiy.WeatherEntity
 import com.android.weatherapp.renderforest.domain.model.ApiError
 import com.android.weatherapp.renderforest.domain.model.MainWeatherResponse
 import com.android.weatherapp.renderforest.domain.model.Params
@@ -10,8 +11,10 @@ import com.android.weatherapp.renderforest.domain.repository.DataBaseRepository
 import com.android.weatherapp.renderforest.domain.usecase.GetWeatherUseCase
 import com.android.weatherapp.renderforest.domain.usecase.UseCaseResponse
 import com.android.weatherapp.renderforest.utils.NetworkUtil
-import com.android.weatherapp.renderforest.utils.convertModelToEntity
+import com.android.weatherapp.renderforest.utils.PojoToEntity
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getWeatherUseCase: GetWeatherUseCase,
@@ -19,6 +22,7 @@ class HomeViewModel(
 ) : ViewModel() {
 
     val weatherData = MutableLiveData<MainWeatherResponse>()
+    val weatherDbData = MutableLiveData<WeatherEntity>()
     val showProgressbar = MutableLiveData<Boolean>()
     val messageData = MutableLiveData<String>()
 
@@ -33,10 +37,14 @@ class HomeViewModel(
                 object : UseCaseResponse<MainWeatherResponse> {
 
                     override fun onSuccess(result: MainWeatherResponse) {
-                        val weatherEntity = convertModelToEntity(result.daily)
-//                    dataBaseRepository.add(weatherEntity)
-//                    dataBaseRepository.getSavedNewsData
+                        val data = PojoToEntity().map(result)
+                        viewModelScope.launch {
+                            dataBaseRepository.add(data)
+                        }
+
+                        dataBaseRepository.getSavedNewsData
                         weatherData.postValue(result)
+                        getDbData()
                         showProgressbar.value = false
                     }
 
@@ -48,6 +56,14 @@ class HomeViewModel(
 
                 }
             )
+        } else {
+            getDbData()
+        }
+    }
+
+    fun getDbData() = viewModelScope.launch {
+        dataBaseRepository.getSavedNewsData.collect {
+            weatherDbData.postValue(it)
         }
     }
 
