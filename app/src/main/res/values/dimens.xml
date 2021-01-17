@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Text Size-->
+    <dimen name="temp_text_size">18sp</dimen>
+    <dimen name="current_temp_text_size">30sp</dimen>
+
+<!--    Margins-->
+    <dimen name="margin_min">16dp</dimen>
+    <dimen name="margin_S">18dp</dimen>
+    <dimen name="margin_M">20dp</dimen>
+    <dimen name="margin_L">23dp</dimen>
+    <dimen name="margin_LX">26dp</dimen>
+    <dimen name="margin_LXX">35dp</dimen>
+
+<!--    Paddings-->
+    <dimen name="padding_min">16dp</dimen>
+</resources>
